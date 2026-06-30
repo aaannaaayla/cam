@@ -284,6 +284,39 @@ extension FilterPreset {
             adjustments: FilterAdjustments(saturation: 0.85, brightness: -0.01, contrast: 1.0, warmth: 0.26, shadows: 0.08, vignette: 0.2, fade: 0.35, grain: 0.4, sepia: 0.1)),
         FilterPreset(id: "pro_tz_dream", name: "Dreamy", isPro: true, category: .aesthetic,
             adjustments: FilterAdjustments(saturation: 0.8, brightness: 0.1, contrast: 0.85, warmth: 0.2, highlights: 0.16, fade: 0.5, grain: 0.2)),
+
+        // More Food (Foodie-inspired) — table, drinks, baked goods
+        FilterPreset(id: "pro_cafe", name: "Café", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.06, brightness: 0.03, contrast: 1.06, warmth: 0.34, highlights: 0.04, shadows: -0.04)),
+        FilterPreset(id: "pro_citrus", name: "Citrus", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.35, brightness: 0.06, contrast: 1.1, warmth: 0.06, highlights: 0.1)),
+        FilterPreset(id: "pro_garden", name: "Garden", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.18, brightness: 0.07, contrast: 1.02, warmth: -0.08, highlights: 0.06)),
+        FilterPreset(id: "pro_bakery", name: "Bakery", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.12, brightness: 0.08, contrast: 1.0, warmth: 0.4, highlights: 0.1)),
+        FilterPreset(id: "pro_grill", name: "Grill", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.2, brightness: 0.0, contrast: 1.22, warmth: 0.2, highlights: 0.04, shadows: -0.12, vignette: 0.15)),
+
+        // More Tezza-inspired — pastel, retro decades, cool film
+        FilterPreset(id: "pro_tz_pastel", name: "Pastel", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.72, brightness: 0.09, contrast: 0.86, warmth: 0.16, highlights: 0.12, fade: 0.48, grain: 0.15)),
+        FilterPreset(id: "pro_tz_70s", name: "70s", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.9, brightness: -0.02, contrast: 1.02, warmth: 0.42, shadows: 0.1, vignette: 0.28, fade: 0.3, grain: 0.45, sepia: 0.18)),
+        FilterPreset(id: "pro_tz_cool", name: "Cool Film", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.86, brightness: 0.03, contrast: 0.96, warmth: -0.22, highlights: -0.04, fade: 0.34, grain: 0.26)),
+        FilterPreset(id: "pro_tz_fadedsun", name: "Faded Sun", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.84, brightness: 0.08, contrast: 0.9, warmth: 0.38, highlights: 0.14, fade: 0.46, grain: 0.22)),
+        FilterPreset(id: "pro_tz_noir_film", name: "Indie", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.7, brightness: -0.03, contrast: 1.08, warmth: 0.05, shadows: -0.06, vignette: 0.32, fade: 0.28, grain: 0.5)),
+
+        // Dazz Cam-inspired camera emulations (warm analog/film looks).
+        // "FXN R": warm yellow-tinted Fuji-style film, dreamy & soft, shot warm
+        // (~9800K) with a slightly darker exposure and fine analog grain.
+        FilterPreset(id: "pro_fxn_r", name: "FXN R", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.95, brightness: -0.03, contrast: 1.05, warmth: 0.42, highlights: 0.06, shadows: 0.05, vignette: 0.15, grain: 0.3, fade: 0.3, sepia: 0.12)),
+        // Cooler "dreamy Fuji" variant — same camera, temperature pulled back
+        FilterPreset(id: "pro_fxn", name: "FXN", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.98, brightness: -0.02, contrast: 1.06, warmth: 0.1, highlights: 0.08, shadows: 0.04, vignette: 0.14, grain: 0.28, fade: 0.26)),
     ]
 
     static var all: [FilterPreset] { allFree + allPro }
