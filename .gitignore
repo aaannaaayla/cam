@@ -1,0 +1,19 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcscmblueprint
+*.xccheckout
+
+# macOS
+.DS_Store
+
+# SPM
+.swiftpm/
+.build/
+
+# Downloaded assets (fetched by scripts/setup-assets.sh)
+cam/Resources/LUTs/*.cube
+cam/Resources/Stickers/**/*.png
+cam/Resources/Fonts/*.ttf

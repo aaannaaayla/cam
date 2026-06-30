@@ -27,14 +27,27 @@ A focused iOS content creation app — camera, filters, collage, scrapbook, and 
 
 ### Steps
 
+**Easiest — just open it.** The repo ships a ready-to-open `cam.xcodeproj`
+(no XcodeGen or Terminal needed). In Xcode's welcome window choose **Clone Git
+Repository**, paste the repo URL, then open `cam.xcodeproj` and hit ▶.
+
 ```bash
+# Or from the command line:
 git clone https://github.com/aaannaaayla/cam
 cd cam
-brew install xcodegen          # one-time
-bash scripts/setup-assets.sh   # downloads LUTs, stickers, fonts
-xcodegen generate
 open cam.xcodeproj
 ```
+
+Optional — to load the real film LUTs, sticker PNGs, and fonts (the app runs
+fine without them, falling back to built-in looks):
+
+```bash
+bash scripts/setup-assets.sh
+```
+
+> The project uses an Xcode file-system synchronized group, so new files added
+> to `cam/` appear automatically — no need to regenerate anything. A `project.yml`
+> is included if you prefer to regenerate with [XcodeGen](https://github.com/yonaskolb/XcodeGen).
 
 Then in Xcode:
 1. Select your **Team** in Signing & Capabilities
