@@ -98,8 +98,8 @@ struct FilterPreset: Identifiable, Hashable {
                     "inputRVector": CIVector(x: 0, y: 0, z: 0, w: 0),
                     "inputGVector": CIVector(x: 0, y: 0, z: 0, w: 0),
                     "inputBVector": CIVector(x: 0, y: 0, z: 0, w: 0),
-                    "inputAVector": CIVector(x: adj.grain * 0.3, y: 0, z: 0, w: 0),
-                    "inputBiasVector": CIVector(x: 0, y: 0, z: 0, w: adj.grain * 0.05)
+                    "inputAVector": CIVector(x: CGFloat(adj.grain * 0.3), y: 0, z: 0, w: 0),
+                    "inputBiasVector": CIVector(x: 0, y: 0, z: 0, w: CGFloat(adj.grain * 0.05))
                 ]).cropped(to: result.extent)
                 blendFilter.setValue(scaledNoise, forKey: kCIInputImageKey)
                 blendFilter.setValue(result, forKey: kCIInputBackgroundImageKey)
