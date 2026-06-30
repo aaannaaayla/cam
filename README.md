@@ -67,14 +67,15 @@ simulator boot or camera required. The previews are DEBUG-only and never ship.
 Only the **live camera** tab needs a real iPhone (the simulator has no camera);
 everything else runs in the simulator or canvas.
 
-### Testing the paywall (no App Store Connect needed)
+### Testing the paywall
 
-`cam.storekit` is wired into the scheme, so the paywall shows real prices and
-runs **fake test purchases** on-device — even on a free Apple ID. To flip Pro
-on/off while testing, use **Debug ▸ StoreKit ▸ Manage Transactions** in Xcode.
-(If an older `xcodegen` rejects the `storeKitConfiguration` key, delete that line
-from `project.yml` and attach the file manually via **Edit Scheme ▸ Run ▸ Options
-▸ StoreKit Configuration**.)
+The paywall UI renders without any setup. To test **real prices and fake
+purchases** locally, add a StoreKit config in Xcode (one time):
+**File ▸ New ▸ File ▸ StoreKit Configuration File**, add two auto-renewable
+subscriptions with IDs `com.annayladesigns.cam.pro.monthly` ($4.99) and
+`com.annayladesigns.cam.pro.yearly` ($34.99), then attach it via **Edit Scheme ▸
+Run ▸ Options ▸ StoreKit Configuration**. Toggle Pro with **Debug ▸ StoreKit ▸
+Manage Transactions**.
 
 ## Architecture
 

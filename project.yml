@@ -56,5 +56,3 @@ targets:
     scheme:
       testTargets: []
       gatherCoverageData: false
-      # Lets the paywall show prices & run test purchases with no App Store Connect.
-      storeKitConfiguration: cam.storekit

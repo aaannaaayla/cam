@@ -1,3 +1,4 @@
+import SwiftUI
 import UIKit
 
 // Sticker catalog backed by Noto Emoji PNGs (Apache 2.0, from scripts/setup-assets.sh).

@@ -28,7 +28,7 @@ class CameraManager: NSObject, ObservableObject {
     @Published var error: CameraError?
     @Published var previewLayer: AVCaptureVideoPreviewLayer?
 
-    private let session = AVCaptureSession()
+    let session = AVCaptureSession()
     private var photoOutput = AVCapturePhotoOutput()
     private var movieOutput = AVCaptureMovieFileOutput()
     private var currentInput: AVCaptureDeviceInput?

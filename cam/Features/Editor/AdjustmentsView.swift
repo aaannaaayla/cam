@@ -29,7 +29,7 @@ struct AdjustmentsView: View {
         AdjSlider(label: "Fade", icon: "square.dashed", range: 0...1, isPro: true, keyPath: \.fade),
     ]
 
-    var visibleSliders: [AdjSlider] {
+    private var visibleSliders: [AdjSlider] {
         freeSliders + (isPro ? proSliders : [])
     }
 

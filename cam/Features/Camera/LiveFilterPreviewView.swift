@@ -7,20 +7,22 @@ import CoreImage
 // Replaces the plain AVCaptureVideoPreviewLayer so "what you see is what you get."
 
 final class LiveFilterPreviewCoordinator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, MTKViewDelegate {
-    private let metalView: MTKView
-    private let commandQueue: MTLCommandQueue
-    private let ciContext: CIContext
+    private weak var metalView: MTKView?
+    private var commandQueue: MTLCommandQueue?
+    private var ciContext: CIContext?
     private var currentCIImage: CIImage?
     private let lock = NSLock()
 
     var selectedFilter: FilterPreset = .original
 
-    init(metalView: MTKView) {
-        self.metalView = metalView
+    override init() { super.init() }
 
+    /// Wires the coordinator to the on-screen MTKView. Called from makeUIView so
+    /// the displayed view is the one we render into.
+    func configure(metalView: MTKView) {
         guard let device = MTLCreateSystemDefaultDevice(),
               let queue = device.makeCommandQueue()
-        else { fatalError("Metal is required for live filter preview") }
+        else { return }
 
         self.commandQueue = queue
         self.ciContext = CIContext(mtlDevice: device, options: [
@@ -32,12 +34,12 @@ final class LiveFilterPreviewCoordinator: NSObject, AVCaptureVideoDataOutputSamp
         metalView.framebufferOnly = false
         metalView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
         metalView.colorPixelFormat = .bgra8Unorm
-
-        super.init()
         metalView.delegate = self
+        self.metalView = metalView
     }
 
-    // AVCaptureVideoDataOutputSampleBufferDelegate
+    // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
+
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
@@ -45,33 +47,33 @@ final class LiveFilterPreviewCoordinator: NSObject, AVCaptureVideoDataOutputSamp
 
         var ciImage = CIImage(cvImageBuffer: imageBuffer)
 
-        // Mirror front-camera output
-        if connection.isVideoMirroringSupported {
-            connection.isVideoMirrored = true
-        }
-
-        // Apply the selected filter
+        // Apply the selected filter to the live frame
         ciImage = selectedFilter.apply(to: ciImage)
 
         lock.lock()
         currentCIImage = ciImage
         lock.unlock()
 
-        metalView.setNeedsDisplay()
+        Task { @MainActor in self.metalView?.setNeedsDisplay() }
     }
 
-    // MTKViewDelegate
+    // MARK: MTKViewDelegate
+
     func draw(in view: MTKView) {
         lock.lock()
         let image = currentCIImage
         lock.unlock()
 
         guard let ciImage = image,
+              let ciContext = ciContext,
+              let commandQueue = commandQueue,
               let drawable = view.currentDrawable,
               let commandBuffer = commandQueue.makeCommandBuffer()
         else { return }
 
         let drawableSize = view.drawableSize
+        guard ciImage.extent.width > 0, ciImage.extent.height > 0 else { return }
+
         let scaleX = drawableSize.width  / ciImage.extent.width
         let scaleY = drawableSize.height / ciImage.extent.height
         let scale = max(scaleX, scaleY)
@@ -106,6 +108,10 @@ struct LiveFilterPreviewView: UIViewRepresentable {
     @ObservedObject var camera: CameraManager
     var selectedFilter: FilterPreset
 
+    func makeCoordinator() -> LiveFilterPreviewCoordinator {
+        LiveFilterPreviewCoordinator()
+    }
+
     func makeUIView(context: Context) -> MTKView {
         let metalView = MTKView()
         metalView.isPaused = false
@@ -113,35 +119,24 @@ struct LiveFilterPreviewView: UIViewRepresentable {
         metalView.autoResizeDrawable = true
         metalView.contentMode = .scaleAspectFill
         metalView.clipsToBounds = true
-        return metalView
-    }
 
-    func makeCoordinator() -> LiveFilterPreviewCoordinator {
-        let metalView = MTKView()
-        let coordinator = LiveFilterPreviewCoordinator(metalView: metalView)
-        camera.setVideoOutput(delegate: coordinator)
-        return coordinator
+        // Wire the coordinator to THIS view, then start feeding it camera frames.
+        context.coordinator.configure(metalView: metalView)
+        context.coordinator.selectedFilter = selectedFilter
+        camera.setVideoOutput(delegate: context.coordinator)
+        return metalView
     }
 
     func updateUIView(_ uiView: MTKView, context: Context) {
         context.coordinator.selectedFilter = selectedFilter
-
-        // Re-wire the Metal view if needed (e.g. on first appearance)
-        if uiView.device == nil {
-            guard let device = MTLCreateSystemDefaultDevice() else { return }
-            uiView.device = device
-            uiView.framebufferOnly = false
-            uiView.colorPixelFormat = .bgra8Unorm
-            uiView.delegate = context.coordinator
-        }
     }
 }
 
-// MARK: - CameraManager extension for video data output
+// MARK: - CameraManager video data output
 
 extension CameraManager {
     func setVideoOutput(delegate: AVCaptureVideoDataOutputSampleBufferDelegate) {
-        guard session.isRunning == false || !session.outputs.contains(where: { $0 is AVCaptureVideoDataOutput }) else { return }
+        guard !session.outputs.contains(where: { $0 is AVCaptureVideoDataOutput }) else { return }
 
         session.beginConfiguration()
 
@@ -156,11 +151,9 @@ extension CameraManager {
 
         if session.canAddOutput(videoDataOutput) {
             session.addOutput(videoDataOutput)
-            // Prefer portrait orientation
-            if let connection = videoDataOutput.connection(with: .video) {
-                if connection.isVideoRotationAngleSupported(90) {
-                    connection.videoRotationAngle = 90
-                }
+            if let connection = videoDataOutput.connection(with: .video),
+               connection.isVideoRotationAngleSupported(90) {
+                connection.videoRotationAngle = 90
             }
         }
 

@@ -167,13 +167,13 @@ extension FilterPreset {
         FilterPreset(id: "fade", name: "Fade", isPro: false, category: .moody,
             adjustments: FilterAdjustments(saturation: 0.8, contrast: 0.9, fade: 0.6)),
         FilterPreset(id: "matte", name: "Matte", isPro: false, category: .moody,
-            adjustments: FilterAdjustments(saturation: 0.75, contrast: 0.88, fade: 0.5, vignette: 0.2)),
+            adjustments: FilterAdjustments(saturation: 0.75, contrast: 0.88, vignette: 0.2, fade: 0.5)),
         FilterPreset(id: "bw", name: "B&W", isPro: false, category: .bw,
             adjustments: FilterAdjustments(saturation: 0.0, contrast: 1.1)),
         FilterPreset(id: "golden", name: "Golden", isPro: false, category: .aesthetic,
             adjustments: FilterAdjustments(saturation: 1.1, brightness: 0.05, warmth: 0.5, highlights: 0.1)),
         FilterPreset(id: "haze", name: "Haze", isPro: false, category: .moody,
-            adjustments: FilterAdjustments(saturation: 0.7, brightness: 0.06, contrast: 0.85, fade: 0.45, vignette: 0.15)),
+            adjustments: FilterAdjustments(saturation: 0.7, brightness: 0.06, contrast: 0.85, vignette: 0.15, fade: 0.45)),
         FilterPreset(id: "pop", name: "Pop", isPro: false, category: .bright,
             adjustments: FilterAdjustments(saturation: 1.3, brightness: 0.04, contrast: 1.15)),
         FilterPreset(id: "vintage", name: "Vintage", isPro: false, category: .film,
@@ -193,7 +193,7 @@ extension FilterPreset {
         // Film series
         FilterPreset(id: "pro_portra", name: "Portra", isPro: true, category: .film,
             lutFileName: "Portra",
-            adjustments: FilterAdjustments(saturation: 0.9, brightness: 0.03, contrast: 0.93, warmth: 0.25, highlights: 0.05, shadows: 0.1, fade: 0.2, grain: 0.25)),
+            adjustments: FilterAdjustments(saturation: 0.9, brightness: 0.03, contrast: 0.93, warmth: 0.25, highlights: 0.05, shadows: 0.1, grain: 0.25, fade: 0.2)),
         FilterPreset(id: "pro_kodak", name: "Kodak", isPro: true, category: .film,
             lutFileName: "Kodak2383",
             adjustments: FilterAdjustments(saturation: 1.05, brightness: 0.04, contrast: 0.97, warmth: 0.2, highlights: 0.08, grain: 0.3, fade: 0.15)),
@@ -233,7 +233,7 @@ extension FilterPreset {
         FilterPreset(id: "pro_sage", name: "Sage", isPro: true, category: .aesthetic,
             adjustments: FilterAdjustments(saturation: 0.7, brightness: 0.04, contrast: 0.92, warmth: -0.2, fade: 0.25)),
         FilterPreset(id: "pro_dusty", name: "Dusty", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.65, brightness: 0.05, contrast: 0.88, warmth: 0.15, fade: 0.5, grain: 0.2)),
+            adjustments: FilterAdjustments(saturation: 0.65, brightness: 0.05, contrast: 0.88, warmth: 0.15, grain: 0.2, fade: 0.5)),
         FilterPreset(id: "pro_peach", name: "Peach", isPro: true, category: .aesthetic,
             adjustments: FilterAdjustments(saturation: 0.85, brightness: 0.07, contrast: 0.93, warmth: 0.35, fade: 0.2)),
         FilterPreset(id: "pro_morning", name: "Morning", isPro: true, category: .aesthetic,
@@ -253,7 +253,7 @@ extension FilterPreset {
         FilterPreset(id: "pro_silver", name: "Silver", isPro: true, category: .bw,
             adjustments: FilterAdjustments(saturation: 0.0, brightness: 0.04, contrast: 1.05, grain: 0.15)),
         FilterPreset(id: "pro_fade_bw", name: "Faded", isPro: true, category: .bw,
-            adjustments: FilterAdjustments(saturation: 0.0, brightness: 0.05, contrast: 0.9, fade: 0.4, grain: 0.3)),
+            adjustments: FilterAdjustments(saturation: 0.0, brightness: 0.05, contrast: 0.9, grain: 0.3, fade: 0.4)),
         FilterPreset(id: "pro_contrast_bw", name: "Stark", isPro: true, category: .bw,
             adjustments: FilterAdjustments(saturation: 0.0, brightness: -0.02, contrast: 1.4, vignette: 0.3)),
 
@@ -273,17 +273,17 @@ extension FilterPreset {
 
         // Tezza-inspired film & aesthetic looks (warm, muted, matte, grainy)
         FilterPreset(id: "pro_tz_warm", name: "Warm Film", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.82, brightness: 0.04, contrast: 0.94, warmth: 0.34, highlights: -0.05, fade: 0.42, grain: 0.28)),
+            adjustments: FilterAdjustments(saturation: 0.82, brightness: 0.04, contrast: 0.94, warmth: 0.34, highlights: -0.05, grain: 0.28, fade: 0.42)),
         FilterPreset(id: "pro_tz_matte", name: "Matte Film", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.78, brightness: 0.03, contrast: 0.88, warmth: 0.1, shadows: 0.12, fade: 0.55, grain: 0.32)),
+            adjustments: FilterAdjustments(saturation: 0.78, brightness: 0.03, contrast: 0.88, warmth: 0.1, shadows: 0.12, grain: 0.32, fade: 0.55)),
         FilterPreset(id: "pro_tz_golden", name: "Golden Hr", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.95, brightness: 0.06, contrast: 0.96, warmth: 0.48, highlights: 0.1, fade: 0.22, grain: 0.18)),
+            adjustments: FilterAdjustments(saturation: 0.95, brightness: 0.06, contrast: 0.96, warmth: 0.48, highlights: 0.1, grain: 0.18, fade: 0.22)),
         FilterPreset(id: "pro_tz_clean", name: "Clean Film", isPro: true, category: .film,
-            adjustments: FilterAdjustments(saturation: 0.92, brightness: 0.05, contrast: 0.98, warmth: 0.12, highlights: 0.04, fade: 0.18, grain: 0.22)),
+            adjustments: FilterAdjustments(saturation: 0.92, brightness: 0.05, contrast: 0.98, warmth: 0.12, highlights: 0.04, grain: 0.22, fade: 0.18)),
         FilterPreset(id: "pro_tz_retro", name: "Retro", isPro: true, category: .film,
-            adjustments: FilterAdjustments(saturation: 0.85, brightness: -0.01, contrast: 1.0, warmth: 0.26, shadows: 0.08, vignette: 0.2, fade: 0.35, grain: 0.4, sepia: 0.1)),
+            adjustments: FilterAdjustments(saturation: 0.85, brightness: -0.01, contrast: 1.0, warmth: 0.26, shadows: 0.08, vignette: 0.2, grain: 0.4, fade: 0.35, sepia: 0.1)),
         FilterPreset(id: "pro_tz_dream", name: "Dreamy", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.8, brightness: 0.1, contrast: 0.85, warmth: 0.2, highlights: 0.16, fade: 0.5, grain: 0.2)),
+            adjustments: FilterAdjustments(saturation: 0.8, brightness: 0.1, contrast: 0.85, warmth: 0.2, highlights: 0.16, grain: 0.2, fade: 0.5)),
 
         // More Food (Foodie-inspired) — table, drinks, baked goods
         FilterPreset(id: "pro_cafe", name: "Café", isPro: true, category: .food,
@@ -299,15 +299,15 @@ extension FilterPreset {
 
         // More Tezza-inspired — pastel, retro decades, cool film
         FilterPreset(id: "pro_tz_pastel", name: "Pastel", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.72, brightness: 0.09, contrast: 0.86, warmth: 0.16, highlights: 0.12, fade: 0.48, grain: 0.15)),
+            adjustments: FilterAdjustments(saturation: 0.72, brightness: 0.09, contrast: 0.86, warmth: 0.16, highlights: 0.12, grain: 0.15, fade: 0.48)),
         FilterPreset(id: "pro_tz_70s", name: "70s", isPro: true, category: .film,
-            adjustments: FilterAdjustments(saturation: 0.9, brightness: -0.02, contrast: 1.02, warmth: 0.42, shadows: 0.1, vignette: 0.28, fade: 0.3, grain: 0.45, sepia: 0.18)),
+            adjustments: FilterAdjustments(saturation: 0.9, brightness: -0.02, contrast: 1.02, warmth: 0.42, shadows: 0.1, vignette: 0.28, grain: 0.45, fade: 0.3, sepia: 0.18)),
         FilterPreset(id: "pro_tz_cool", name: "Cool Film", isPro: true, category: .film,
-            adjustments: FilterAdjustments(saturation: 0.86, brightness: 0.03, contrast: 0.96, warmth: -0.22, highlights: -0.04, fade: 0.34, grain: 0.26)),
+            adjustments: FilterAdjustments(saturation: 0.86, brightness: 0.03, contrast: 0.96, warmth: -0.22, highlights: -0.04, grain: 0.26, fade: 0.34)),
         FilterPreset(id: "pro_tz_fadedsun", name: "Faded Sun", isPro: true, category: .aesthetic,
-            adjustments: FilterAdjustments(saturation: 0.84, brightness: 0.08, contrast: 0.9, warmth: 0.38, highlights: 0.14, fade: 0.46, grain: 0.22)),
+            adjustments: FilterAdjustments(saturation: 0.84, brightness: 0.08, contrast: 0.9, warmth: 0.38, highlights: 0.14, grain: 0.22, fade: 0.46)),
         FilterPreset(id: "pro_tz_noir_film", name: "Indie", isPro: true, category: .film,
-            adjustments: FilterAdjustments(saturation: 0.7, brightness: -0.03, contrast: 1.08, warmth: 0.05, shadows: -0.06, vignette: 0.32, fade: 0.28, grain: 0.5)),
+            adjustments: FilterAdjustments(saturation: 0.7, brightness: -0.03, contrast: 1.08, warmth: 0.05, shadows: -0.06, vignette: 0.32, grain: 0.5, fade: 0.28)),
 
         // Dazz Cam-inspired camera emulations (warm analog/film looks).
         // "FXN R": warm yellow-tinted Fuji-style film, dreamy & soft, shot warm
