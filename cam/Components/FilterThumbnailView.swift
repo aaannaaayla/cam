@@ -83,6 +83,14 @@ struct FilterThumbnailView: View {
         a + (b - a) * max(0, min(1, t))
     }
 
+    private func clamp(_ v: SIMD3<Float>, min lo: Float, max hi: Float) -> SIMD3<Float> {
+        SIMD3<Float>(
+            Swift.min(Swift.max(v.x, lo), hi),
+            Swift.min(Swift.max(v.y, lo), hi),
+            Swift.min(Swift.max(v.z, lo), hi)
+        )
+    }
+
     private func simdToColor(_ v: SIMD3<Float>) -> Color {
         Color(red: Double(v.x), green: Double(v.y), blue: Double(v.z))
     }

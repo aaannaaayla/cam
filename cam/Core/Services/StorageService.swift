@@ -30,7 +30,7 @@ class StorageService {
 
     func loadProjects() throws -> [Project] {
         let urls = try fileManager.contentsOfDirectory(at: projectsURL, includingPropertiesForKeys: nil)
-        return try urls
+        return urls
             .filter { $0.pathExtension == "json" }
             .compactMap { try? JSONDecoder().decode(Project.self, from: Data(contentsOf: $0)) }
             .sorted { $0.modifiedAt > $1.modifiedAt }
@@ -51,7 +51,7 @@ class StorageService {
 
     func loadGridPlans() throws -> [GridPlan] {
         let urls = try fileManager.contentsOfDirectory(at: gridsURL, includingPropertiesForKeys: nil)
-        return try urls
+        return urls
             .filter { $0.pathExtension == "json" }
             .compactMap { try? JSONDecoder().decode(GridPlan.self, from: Data(contentsOf: $0)) }
             .sorted { $0.modifiedAt > $1.modifiedAt }

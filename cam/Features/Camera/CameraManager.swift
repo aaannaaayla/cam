@@ -87,22 +87,25 @@ class CameraManager: NSObject, ObservableObject {
         layer.videoGravity = .resizeAspectFill
         previewLayer = layer
 
-        Task.detached(priority: .userInitiated) { [weak self] in
-            self?.session.startRunning()
+        let session = self.session
+        Task.detached(priority: .userInitiated) {
+            session.startRunning()
         }
     }
 
     func startSession() {
         guard !session.isRunning else { return }
-        Task.detached(priority: .userInitiated) { [weak self] in
-            self?.session.startRunning()
+        let session = self.session
+        Task.detached(priority: .userInitiated) {
+            session.startRunning()
         }
     }
 
     func stopSession() {
         guard session.isRunning else { return }
-        Task.detached(priority: .background) { [weak self] in
-            self?.session.stopRunning()
+        let session = self.session
+        Task.detached(priority: .background) {
+            session.stopRunning()
         }
     }
 
