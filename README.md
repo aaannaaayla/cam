@@ -77,6 +77,19 @@ Foodie-, Tezza-, and Dazz Cam-*inspired* sets recreate the *aesthetic* (which
 isn't copyrightable) with our own parameters; they do not use those apps'
 proprietary filter files.
 
+## Camera & Editing Flow
+
+Filters work two ways, and they're connected:
+
+1. **Live filter** — pick a filter in the camera and the viewfinder shows it applied
+   in real time (Metal/Core Image at 60fps). What you see is what you get.
+2. **Post-edit** — after capture, the editor opens with that same live filter already
+   applied. Editing is **non-destructive**: the raw photo is kept underneath, so you
+   can fine-tune, swap to a different filter, or reset to Original at any time.
+
+Shooting clean? Leave the filter on Original and the editor opens with the untouched
+photo. Editing a library photo always starts clean.
+
 ## Feed Planner
 
 Local-only visual planning tool (no API/account connection required). Drag & drop to reorder slots. Previews your 3-column IG or TikTok grid before posting.

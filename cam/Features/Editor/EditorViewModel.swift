@@ -12,10 +12,16 @@ class EditorViewModel: ObservableObject {
     private let context = CIContext(options: [.useSoftwareRenderer: false])
     private var processingTask: Task<Void, Never>?
 
-    init(mediaItem: MediaItem) {
+    init(mediaItem: MediaItem, initialFilter: FilterPreset = .original) {
         self.originalImage = mediaItem.image ?? UIImage()
         self.processedImage = mediaItem.image
+        self.selectedFilter = initialFilter
         observeChanges()
+        // observeChanges() drops the initial value, so render the carried-over
+        // filter once if it isn't the no-op Original.
+        if initialFilter.id != FilterPreset.original.id {
+            Task { await processImage() }
+        }
     }
 
     private func observeChanges() {

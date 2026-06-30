@@ -18,9 +18,9 @@ struct EditorView: View {
         case adjust = "Adjust"
     }
 
-    init(mediaItem: MediaItem) {
+    init(mediaItem: MediaItem, initialFilter: FilterPreset = .original) {
         self.mediaItem = mediaItem
-        _vm = StateObject(wrappedValue: EditorViewModel(mediaItem: mediaItem))
+        _vm = StateObject(wrappedValue: EditorViewModel(mediaItem: mediaItem, initialFilter: initialFilter))
     }
 
     var body: some View {

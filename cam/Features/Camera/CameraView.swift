@@ -9,6 +9,7 @@ struct CameraView: View {
     @State private var showEditor = false
     @State private var showPaywall = false
     @State private var capturedMedia: MediaItem?
+    @State private var capturedFilter: FilterPreset = .original
     @State private var holdingShutter = false
 
     var body: some View {
@@ -54,7 +55,9 @@ struct CameraView: View {
         .onDisappear { camera.stopSession() }
         .sheet(isPresented: $showEditor) {
             if let media = capturedMedia {
-                EditorView(mediaItem: media)
+                // Editor opens with the live filter already applied (WYSIWYG),
+                // but keeps the raw image so editing stays non-destructive.
+                EditorView(mediaItem: media, initialFilter: capturedFilter)
             }
         }
         .sheet(isPresented: $showPaywall) {
@@ -63,6 +66,7 @@ struct CameraView: View {
         .onChange(of: camera.capturedImage) { _, image in
             guard let image else { return }
             capturedMedia = MediaItem(image: image)
+            capturedFilter = selectedFilter   // carry the live filter into post-edit
             showEditor = true
         }
     }
