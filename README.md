@@ -30,6 +30,8 @@ A focused iOS content creation app — camera, filters, collage, scrapbook, and 
 ```bash
 git clone https://github.com/aaannaaayla/cam
 cd cam
+brew install xcodegen          # one-time
+bash scripts/setup-assets.sh   # downloads LUTs, stickers, fonts
 xcodegen generate
 open cam.xcodeproj
 ```
@@ -41,6 +43,16 @@ Then in Xcode:
    - `com.annayladesigns.cam.pro.yearly` — $34.99/year
 3. Add your **App Icon** to `cam/Resources/Assets.xcassets/AppIcon.appiconset/`
 4. Build & run on a real device (camera requires physical device)
+
+### Previewing screens (no device needed)
+
+Every screen has a SwiftUI preview in `cam/Preview/Previews.swift`. Open that
+file (or any view), show the canvas with **Editor ▸ Canvas (⌥⌘↩)**, and pick a
+screen from the canvas dropdown — it renders instantly with sample data, no
+simulator boot or camera required. The previews are DEBUG-only and never ship.
+
+Only the **live camera** tab needs a real iPhone (the simulator has no camera);
+everything else runs in the simulator or canvas.
 
 ## Architecture
 
