@@ -8,7 +8,7 @@ A focused iOS content creation app — camera, filters, collage, scrapbook, and 
 |---|---|---|
 | Camera (photo) | ✓ | ✓ |
 | Camera (video) | — | ✓ |
-| Filters | 12 | 50+ |
+| Filters | 14 | 37 (51 total) |
 | Adjustments | Brightness, Contrast, Saturation, Warmth | + Exposure, Highlights, Shadows, Sharpness, Vignette, Grain, Fade |
 | Collage layouts | 4 | 9+ |
 | Scrapbook templates | 3 | 9+ sticker packs |
@@ -62,14 +62,19 @@ cam/
 
 ## Filter System
 
-- **Free (12):** Original, Linen, Bright, Warm, Cool, Fade, Matte, B&W, Golden, Haze, Pop, Vintage
+- **Free (14):** Original, Linen, Bright, Warm, Cool, Fade, Matte, B&W, Golden, Haze, Pop, Vintage, Fresh, Tasty
 - **Pro Film (7):** Portra, Kodak, Fuji, Ilford, Ektar, Cinestill, Disposable
-- **Pro Moody (6):** Shadow, Deep, Noir, Moody, Cinematic + Cinestill
+- **Pro Moody (5):** Shadow, Deep, Noir, Moody, Cinematic
 - **Pro Aesthetic (6):** Cream, Blush, Sage, Dusty, Peach, Morning
 - **Pro Bright (4):** Clean, Airy, Sunlit, Overexposed
+- **Pro Food (6):** Crispy, Yummy, Sweet, Picnic, Deli, Brunch — *Foodie-inspired*
+- **Pro Film/Aesthetic (6):** Warm Film, Matte Film, Golden Hr, Clean Film, Retro, Dreamy — *Tezza-inspired*
 - **Pro B&W (3):** Silver, Faded, Stark
 
-All filters built on Core Image — no third-party dependencies.
+All filters are original Core Image grades — no third-party LUTs copied. The
+Foodie- and Tezza-*inspired* sets recreate the *aesthetic* (which isn't
+copyrightable) with our own parameters; they do not use those apps' proprietary
+filter files.
 
 ## Feed Planner
 

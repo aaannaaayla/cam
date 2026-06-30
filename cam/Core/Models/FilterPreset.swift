@@ -27,6 +27,7 @@ struct FilterPreset: Identifiable, Hashable {
         case moody = "Moody"
         case bright = "Bright"
         case aesthetic = "Aesthetic"
+        case food = "Food"
         case bw = "B&W"
     }
 
@@ -177,6 +178,12 @@ extension FilterPreset {
             adjustments: FilterAdjustments(saturation: 1.3, brightness: 0.04, contrast: 1.15)),
         FilterPreset(id: "vintage", name: "Vintage", isPro: false, category: .film,
             adjustments: FilterAdjustments(saturation: 0.8, brightness: -0.02, contrast: 0.95, warmth: 0.3, vignette: 0.35, grain: 0.4, fade: 0.25, sepia: 0.15)),
+
+        // Food (Foodie-inspired aesthetic) — free starters
+        FilterPreset(id: "fresh", name: "Fresh", isPro: false, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.12, brightness: 0.07, contrast: 1.04, warmth: 0.05, highlights: 0.06)),
+        FilterPreset(id: "tasty", name: "Tasty", isPro: false, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.22, brightness: 0.05, contrast: 1.1, warmth: 0.18, highlights: 0.05)),
     ]
 
     // Pro filters — lutFileName points to a .cube in cam/Resources/LUTs/
@@ -249,6 +256,34 @@ extension FilterPreset {
             adjustments: FilterAdjustments(saturation: 0.0, brightness: 0.05, contrast: 0.9, fade: 0.4, grain: 0.3)),
         FilterPreset(id: "pro_contrast_bw", name: "Stark", isPro: true, category: .bw,
             adjustments: FilterAdjustments(saturation: 0.0, brightness: -0.02, contrast: 1.4, vignette: 0.3)),
+
+        // Food series — Foodie-inspired looks (make dishes pop: warm, crisp, saturated)
+        FilterPreset(id: "pro_crispy", name: "Crispy", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.18, brightness: 0.04, contrast: 1.14, warmth: 0.12, highlights: 0.08, shadows: -0.05)),
+        FilterPreset(id: "pro_yummy", name: "Yummy", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.3, brightness: 0.04, contrast: 1.08, warmth: 0.22, highlights: 0.04)),
+        FilterPreset(id: "pro_sweet", name: "Sweet", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.05, brightness: 0.1, contrast: 0.98, warmth: 0.18, highlights: 0.1, fade: 0.12)),
+        FilterPreset(id: "pro_picnic", name: "Picnic", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.1, brightness: 0.09, contrast: 1.0, warmth: 0.28, highlights: 0.08)),
+        FilterPreset(id: "pro_deli", name: "Deli", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.25, brightness: 0.02, contrast: 1.16, warmth: 0.15, highlights: 0.05, shadows: -0.08, vignette: 0.12)),
+        FilterPreset(id: "pro_brunch", name: "Brunch", isPro: true, category: .food,
+            adjustments: FilterAdjustments(saturation: 1.08, brightness: 0.11, contrast: 0.96, warmth: 0.3, highlights: 0.12)),
+
+        // Tezza-inspired film & aesthetic looks (warm, muted, matte, grainy)
+        FilterPreset(id: "pro_tz_warm", name: "Warm Film", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.82, brightness: 0.04, contrast: 0.94, warmth: 0.34, highlights: -0.05, fade: 0.42, grain: 0.28)),
+        FilterPreset(id: "pro_tz_matte", name: "Matte Film", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.78, brightness: 0.03, contrast: 0.88, warmth: 0.1, shadows: 0.12, fade: 0.55, grain: 0.32)),
+        FilterPreset(id: "pro_tz_golden", name: "Golden Hr", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.95, brightness: 0.06, contrast: 0.96, warmth: 0.48, highlights: 0.1, fade: 0.22, grain: 0.18)),
+        FilterPreset(id: "pro_tz_clean", name: "Clean Film", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.92, brightness: 0.05, contrast: 0.98, warmth: 0.12, highlights: 0.04, fade: 0.18, grain: 0.22)),
+        FilterPreset(id: "pro_tz_retro", name: "Retro", isPro: true, category: .film,
+            adjustments: FilterAdjustments(saturation: 0.85, brightness: -0.01, contrast: 1.0, warmth: 0.26, shadows: 0.08, vignette: 0.2, fade: 0.35, grain: 0.4, sepia: 0.1)),
+        FilterPreset(id: "pro_tz_dream", name: "Dreamy", isPro: true, category: .aesthetic,
+            adjustments: FilterAdjustments(saturation: 0.8, brightness: 0.1, contrast: 0.85, warmth: 0.2, highlights: 0.16, fade: 0.5, grain: 0.2)),
     ]
 
     static var all: [FilterPreset] { allFree + allPro }
