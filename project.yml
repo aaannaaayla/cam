@@ -12,6 +12,14 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     DEVELOPMENT_TEAM: ""
 
+packages:
+  Harbeth:
+    url: https://github.com/yangKJ/Harbeth
+    from: "0.2.6"
+  SwiftUIPager:
+    url: https://github.com/fermoya/SwiftUIPager
+    from: "2.3.0"
+
 targets:
   cam:
     type: application
@@ -23,6 +31,14 @@ targets:
           - "**/.DS_Store"
     resources:
       - cam/Resources/Assets.xcassets
+      - cam/Resources/LUTs
+      - cam/Resources/Stickers
+      - cam/Resources/Fonts
+    dependencies:
+      - package: Harbeth
+        product: Harbeth
+      - package: SwiftUIPager
+        product: SwiftUIPager
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.annayladesigns.cam

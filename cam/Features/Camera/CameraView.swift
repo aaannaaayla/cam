@@ -18,8 +18,8 @@ struct CameraView: View {
             if camera.isAuthorized {
                 GeometryReader { geo in
                     ZStack(alignment: .bottom) {
-                        // Live preview
-                        CameraPreviewView(camera: camera)
+                        // Live Metal preview — applies selected filter in real-time
+                        LiveFilterPreviewView(camera: camera, selectedFilter: selectedFilter)
                             .ignoresSafeArea()
 
                         VStack(spacing: 0) {

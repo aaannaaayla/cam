@@ -280,53 +280,62 @@ struct ScrapElementView: View {
     }
 }
 
-// MARK: - Sticker Picker
+// MARK: - Sticker Picker (backed by StickerCatalog / Noto Emoji)
 
 struct StickerPickerView: View {
     @Environment(\.dismiss) private var dismiss
     let onSelect: (String) -> Void
 
-    private let stickers: [(category: String, names: [String])] = [
-        ("Hearts", ["heart.fill", "heart.circle.fill", "suit.heart.fill", "heart.square.fill"]),
-        ("Stars", ["star.fill", "star.circle.fill", "sparkles", "sparkle"]),
-        ("Nature", ["leaf.fill", "flower", "sun.max.fill", "moon.stars.fill", "cloud.sun.fill"]),
-        ("Fun", ["face.smiling.inverse", "balloon.fill", "camera.fill", "music.note"]),
-        ("Symbols", ["checkmark.circle.fill", "plus.circle.fill", "arrow.right.circle.fill", "xmark.circle.fill"]),
-    ]
+    @State private var selectedPack: StickerPack = StickerCatalog.all[0]
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    ForEach(stickers, id: \.category) { group in
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(group.category)
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 20)
-
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
-                                ForEach(group.names, id: \.self) { name in
-                                    Button {
-                                        onSelect(name)
-                                        dismiss()
-                                    } label: {
-                                        Image(systemName: name)
-                                            .font(.system(size: 36))
-                                            .foregroundColor(Color.camAccent)
-                                            .frame(width: 60, height: 60)
-                                            .background(Color.camSurface)
-                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+            VStack(spacing: 0) {
+                // Pack tabs
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(StickerCatalog.all) { pack in
+                            Button(action: { selectedPack = pack }) {
+                                VStack(spacing: 4) {
+                                    Text(pack.emoji)
+                                        .font(.system(size: 22))
+                                    Text(pack.name)
+                                        .font(.system(size: 10, weight: .medium))
+                                        .foregroundColor(selectedPack.id == pack.id ? Color.camAccent : .white.opacity(0.5))
                                 }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(selectedPack.id == pack.id ? Color.camAccentSoft : Color.clear)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
-                            .padding(.horizontal, 20)
                         }
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
                 }
-                .padding(.vertical, 20)
+                .background(Color.camSurface)
+
+                Divider().background(Color.camBorder)
+
+                // Sticker grid
+                ScrollView {
+                    LazyVGrid(
+                        columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 5),
+                        spacing: 10
+                    ) {
+                        ForEach(selectedPack.stickers) { sticker in
+                            Button {
+                                onSelect(sticker.id)
+                                dismiss()
+                            } label: {
+                                StickerCell(sticker: sticker)
+                            }
+                        }
+                    }
+                    .padding(16)
+                }
+                .background(Color.camBackground)
             }
-            .background(Color.camBackground)
             .navigationTitle("Stickers")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -338,3 +347,31 @@ struct StickerPickerView: View {
         }
     }
 }
+
+private struct StickerCell: View {
+    let sticker: Sticker
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.camSurface)
+                .frame(height: 60)
+
+            if let img = sticker.image {
+                // Real Noto Emoji PNG
+                Image(uiImage: img)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(8)
+            } else {
+                // SF Symbol fallback until setup-assets.sh is run
+                Image(systemName: sticker.sfSymbol)
+                    .font(.system(size: 28))
+                    .foregroundColor(Color.camAccent)
+            }
+        }
+    }
+}
+
+// Re-export StickerCatalog for backward compat
+typealias StickerCatalog = StickerPack

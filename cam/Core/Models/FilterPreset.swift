@@ -6,7 +6,21 @@ struct FilterPreset: Identifiable, Hashable {
     let name: String
     let isPro: Bool
     let category: Category
+
+    // A LUT filename takes precedence; math adjustments are the fallback
+    // when the .cube file hasn't been downloaded yet (setup-assets.sh not run).
+    let lutFileName: String?
     let adjustments: FilterAdjustments
+
+    init(id: String, name: String, isPro: Bool, category: Category,
+         lutFileName: String? = nil, adjustments: FilterAdjustments = FilterAdjustments()) {
+        self.id = id
+        self.name = name
+        self.isPro = isPro
+        self.category = category
+        self.lutFileName = lutFileName
+        self.adjustments = adjustments
+    }
 
     enum Category: String, CaseIterable {
         case film = "Film"
@@ -19,7 +33,23 @@ struct FilterPreset: Identifiable, Hashable {
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
     static func == (lhs: FilterPreset, rhs: FilterPreset) -> Bool { lhs.id == rhs.id }
 
+    /// True when the real LUT file is present in the bundle.
+    var hasLUT: Bool {
+        guard let name = lutFileName else { return false }
+        return LUTEngine.shared.filter(named: name) != nil
+    }
+
     func apply(to image: CIImage) -> CIImage {
+        // Use the real LUT when available; fall back to math approximation.
+        if let lut = lutFileName, LUTEngine.shared.filter(named: lut) != nil {
+            let lutResult = LUTEngine.shared.apply(lut: lut, to: image)
+            // Still allow the user's live adjustments on top of the LUT
+            return applyMathAdjustments(to: lutResult, mathOnly: true)
+        }
+        return applyMathAdjustments(to: image, mathOnly: false)
+    }
+
+    private func applyMathAdjustments(to image: CIImage, mathOnly: Bool) -> CIImage {
         var result = image
         let adj = adjustments
 
@@ -149,22 +179,31 @@ extension FilterPreset {
             adjustments: FilterAdjustments(saturation: 0.8, brightness: -0.02, contrast: 0.95, warmth: 0.3, vignette: 0.35, grain: 0.4, fade: 0.25, sepia: 0.15)),
     ]
 
-    // Pro filters
+    // Pro filters — lutFileName points to a .cube in cam/Resources/LUTs/
+    // The math adjustments are the fallback when the LUT file isn't present yet.
+    // Run scripts/setup-assets.sh to download the real LUT files.
     static let allPro: [FilterPreset] = [
         // Film series
         FilterPreset(id: "pro_portra", name: "Portra", isPro: true, category: .film,
+            lutFileName: "Portra",
             adjustments: FilterAdjustments(saturation: 0.9, brightness: 0.03, contrast: 0.93, warmth: 0.25, highlights: 0.05, shadows: 0.1, fade: 0.2, grain: 0.25)),
         FilterPreset(id: "pro_kodak", name: "Kodak", isPro: true, category: .film,
+            lutFileName: "Kodak2383",
             adjustments: FilterAdjustments(saturation: 1.05, brightness: 0.04, contrast: 0.97, warmth: 0.2, highlights: 0.08, grain: 0.3, fade: 0.15)),
         FilterPreset(id: "pro_fuji", name: "Fuji", isPro: true, category: .film,
+            lutFileName: "Fuji3513",
             adjustments: FilterAdjustments(saturation: 1.1, brightness: 0.02, contrast: 1.0, warmth: -0.1, highlights: -0.05, grain: 0.2)),
         FilterPreset(id: "pro_ilford", name: "Ilford", isPro: true, category: .bw,
+            lutFileName: "IlfordHP5",
             adjustments: FilterAdjustments(saturation: 0.0, brightness: -0.03, contrast: 1.2, vignette: 0.4, grain: 0.45)),
         FilterPreset(id: "pro_ektar", name: "Ektar", isPro: true, category: .film,
+            lutFileName: "Ektar100",
             adjustments: FilterAdjustments(saturation: 1.25, brightness: 0.02, contrast: 1.1, warmth: 0.15, vignette: 0.2, grain: 0.15)),
         FilterPreset(id: "pro_cinestill", name: "Cinestill", isPro: true, category: .film,
+            lutFileName: "Cinestill800T",
             adjustments: FilterAdjustments(saturation: 0.95, brightness: 0.04, contrast: 0.95, warmth: 0.35, highlights: 0.15, vignette: 0.3, grain: 0.35)),
         FilterPreset(id: "pro_disposable", name: "Disposable", isPro: true, category: .film,
+            lutFileName: "DisposableCamera",
             adjustments: FilterAdjustments(saturation: 0.85, brightness: 0.06, contrast: 0.92, warmth: 0.2, vignette: 0.5, grain: 0.6, fade: 0.3)),
 
         // Moody series
